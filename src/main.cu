@@ -11,8 +11,9 @@
 #include "delta_stepping_sssp.h"
 
 int main(int argc, char* argv[]) {
-	if (argc != 3)
-		return 1;
+	/*
+	// Check correct number of arguments
+	if ((argc != 3) && (argc != 5)) return 1;
 
 	// Read graph
 	////////////////////////////////////////////////////////////////////////////
@@ -73,37 +74,20 @@ int main(int argc, char* argv[]) {
 	int sple = 1;
 	int n_sple = 1;
 #if STATS
-	int num_samples = 3;
+	int num_samples = std::atoi(argv[4]);
 	n_sple = num_samples;
 
-	int num_deltas = 10;
-
-	cusp::array1d<int, cusp::host_memory> deltas(num_deltas);
-
-	deltas[0] = 500;    		deltas[1] = 951;
-	deltas[2] = 1294;			deltas[3] = 5000;
-	deltas[4] = 10000; 			deltas[5] = 50000;
-	deltas[6] = 100000; 		deltas[7] = 215150;
-	deltas[8] = 500000; 		deltas[9] = 1000000;
-	/*deltas[10] = k_delta;    	deltas[11] = 1000;
-	deltas[12] = 5000;			deltas[13] = 10000;
-	deltas[14] = 50000; 		deltas[15] = 100000;
-	deltas[16] = 500000; 		deltas[17] = 1000000;
-	deltas[18] = 5000000; 		deltas[19] = INT_MAX;
-	deltas[20] = k_delta;    	deltas[21] = 1000;
-	deltas[22] = 5000;			deltas[23] = 10000;
-	deltas[24] = 50000; 		deltas[25] = 100000;
-	deltas[26] = 500000; 		deltas[27] = 1000000;
-	deltas[28] = 5000000; 		deltas[29] = INT_MAX;*/
-	//for (int i = 0; i < num_deltas; i++) deltas[i] = i + 1;
+	// Read deltas
+	cusp::array1d<int, cusp::host_memory> deltas;
+	cusp::io::read_matrix_market_file(deltas, argv[3]);
 	thrust::sort(thrust::host, deltas.begin(), deltas.end());
 
-	cusp::array2d<double, cusp::host_memory> samples_sssp(num_deltas, num_samples);
-	cusp::array1d<double, cusp::host_memory> samples_sep(num_deltas);
-	cusp::array1d<double, cusp::host_memory> samples_sep_light_edg(num_deltas);
-	cusp::array1d<double, cusp::host_memory> samples_sep_heavy_edg(num_deltas);
+	cusp::array2d<double, cusp::host_memory> samples_sssp(deltas.size(), num_samples);
+	cusp::array1d<double, cusp::host_memory> samples_sep(deltas.size());
+	cusp::array1d<double, cusp::host_memory> samples_sep_light_edg(deltas.size());
+	cusp::array1d<double, cusp::host_memory> samples_sep_heavy_edg(deltas.size());
 
-	for (int delta_idx = 0; delta_idx < num_deltas; delta_idx++) {
+	for (int delta_idx = 0; delta_idx < deltas.size(); delta_idx++) {
 		delta = deltas[delta_idx];
 #endif
 		// Separate graph
@@ -129,8 +113,8 @@ int main(int argc, char* argv[]) {
 			////////////////////////////////////////////////////////////////////////////
 			gettimeofday(&time, NULL); double t1 = time.tv_sec + (time.tv_usec / 1000000.0);
 
-			delta_stepping_gpu_sssp(&d_graph_light, &d_graph_heavy, &d_distance, delta, 0);
-
+			//delta_stepping_gpu_sssp(&d_graph_light, &d_graph_heavy, &d_distance, delta, 0);
+			delta_stepping_gpu_csr(&d_graph_light, &d_graph_heavy, &d_distance, delta, 0);
 			gettimeofday(&time, NULL); double t2 = time.tv_sec + (time.tv_usec / 1000000.0);
 			////////////////////////////////////////////////////////////////////////////
 			printf("Delta: %d, Sample #: %d of %d, Computation Time: %.6lf seconds\n", delta, sple, n_sple, t2 - t1);
@@ -148,6 +132,20 @@ int main(int argc, char* argv[]) {
 
     // Write distances
     cusp::io::write_matrix_market_file(d_distance, "distance.mtx");
+    */
+
+	ContextPtr context = CreateCudaDevice(0);
+
+	HCsrMatrix h_graph, h_graph_light, h_graph_heavy;
+	int delta = std::atoi(argv[3]);
+
+	if 		(std::strcmp(argv[1], "d") == 0) { cusp::io::read_dimacs_file(h_graph, argv[2]); }
+	else if (std::strcmp(argv[1], "m") == 0) { cusp::io::read_matrix_market_file(h_graph, argv[2]); }
+	else 					 				 { printf("Invalid format.\n"); return 1; }
+
+	separate_graphs_host(&h_graph_light, &h_graph_heavy, &h_graph, delta);
+
+	delta_stepping_gpu_mpgu(*context, &h_graph_light, &h_graph_heavy, delta, 0);
 
 	return 0;
 }

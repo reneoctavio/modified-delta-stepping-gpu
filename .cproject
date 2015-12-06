@@ -21,12 +21,15 @@
 					<folderInfo id="com.nvidia.cuda.ide.seven_five.configuration.debug.859069444." name="/" resourcePath="">
 						<toolChain id="com.nvidia.cuda.tools.toolchain.seven_five.exe.debug.310998854" name="CUDA Toolkit 7.5" superClass="com.nvidia.cuda.tools.toolchain.seven_five.exe.debug">
 							<targetPlatform archList="all" binaryParser="com.nvidia.cuda.ide.elf;com.nvidia.cuda.ide.macho;com.nvidia.cuda.ide.cubin" id="com.nvidia.cuda.ide.targetPlatform.1861985276" isAbstract="false" name="Debug Platform" osList="linux,macosx" superClass="com.nvidia.cuda.ide.targetPlatform"/>
-							<builder buildPath="${workspace_loc:/modified-delta-stepping}/Debug" id="com.nvidia.cuda.ide.builder.920125174" managedBuildOn="true" name="CUDA Toolkit 7.5 Builder.Debug" superClass="com.nvidia.cuda.ide.builder"/>
+							<builder buildPath="${workspace_loc:/modified-delta-stepping}/Debug" id="com.nvidia.cuda.ide.builder.920125174" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CUDA Toolkit 7.5 Builder" superClass="com.nvidia.cuda.ide.builder"/>
 							<tool id="nvcc.compiler.base.2143441109" name="NVCC Compiler" superClass="nvcc.compiler.base">
-								<option id="nvcc.compiler.deviceDebug.589239700" superClass="nvcc.compiler.deviceDebug" value="true" valueType="boolean"/>
-								<option id="nvcc.compiler.option.level.45240614" superClass="nvcc.compiler.option.level" value="true" valueType="boolean"/>
-								<option defaultValue="nvcc.compiler.optimization.level.none" id="nvcc.compiler.optimization.level.1826077753" superClass="nvcc.compiler.optimization.level" valueType="enumerated"/>
-								<option id="nvcc.compiler.pic.1396050737" superClass="nvcc.compiler.pic"/>
+								<option id="nvcc.compiler.deviceDebug.589239700" name="Generate device debug information (-G)" superClass="nvcc.compiler.deviceDebug" value="true" valueType="boolean"/>
+								<option id="nvcc.compiler.option.level.45240614" name="Generate host debug information (-g)" superClass="nvcc.compiler.option.level" value="true" valueType="boolean"/>
+								<option defaultValue="nvcc.compiler.optimization.level.none" id="nvcc.compiler.optimization.level.1826077753" name="Optimization Level" superClass="nvcc.compiler.optimization.level" valueType="enumerated"/>
+								<option id="nvcc.compiler.pic.1396050737" name="Position Independent Code (-fPIC)" superClass="nvcc.compiler.pic"/>
+								<option id="nvcc.compiler.include.paths.2949636" superClass="nvcc.compiler.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/home/reneoctavio/git/moderngpu/include"/>
+								</option>
 								<inputType id="nvcc.compiler.input.cu.1778628770" superClass="nvcc.compiler.input.cu"/>
 								<inputType id="nvcc.compiler.input.cpp.650246209" superClass="nvcc.compiler.input.cpp"/>
 								<inputType id="nvcc.compiler.input.c.1781952392" superClass="nvcc.compiler.input.c"/>
@@ -73,12 +76,12 @@
 					<folderInfo id="com.nvidia.cuda.ide.seven_five.configuration.release.729035321." name="/" resourcePath="">
 						<toolChain id="com.nvidia.cuda.ide.toolchain.seven_five.exe.release.101599063" name="CUDA Toolkit 7.5" superClass="com.nvidia.cuda.ide.toolchain.seven_five.exe.release">
 							<targetPlatform archList="all" binaryParser="com.nvidia.cuda.ide.elf;com.nvidia.cuda.ide.macho;com.nvidia.cuda.ide.cubin" id="com.nvidia.cuda.ide.targetPlatform.806643764" isAbstract="false" name="Debug Platform" osList="linux,macosx" superClass="com.nvidia.cuda.ide.targetPlatform"/>
-							<builder buildPath="${workspace_loc:/modified-delta-stepping}/Release" id="com.nvidia.cuda.ide.builder.1225765094" managedBuildOn="true" name="CUDA Toolkit 7.5 Builder.Release" superClass="com.nvidia.cuda.ide.builder"/>
+							<builder buildPath="${workspace_loc:/modified-delta-stepping}/Release" id="com.nvidia.cuda.ide.builder.1225765094" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CUDA Toolkit 7.5 Builder" superClass="com.nvidia.cuda.ide.builder"/>
 							<tool id="nvcc.compiler.base.353635259" name="NVCC Compiler" superClass="nvcc.compiler.base">
-								<option id="nvcc.compiler.deviceDebug.844581980" superClass="nvcc.compiler.deviceDebug"/>
-								<option id="nvcc.compiler.option.level.724283783" superClass="nvcc.compiler.option.level"/>
-								<option defaultValue="nvcc.compiler.optimization.level.most" id="nvcc.compiler.optimization.level.1600321084" superClass="nvcc.compiler.optimization.level" valueType="enumerated"/>
-								<option id="nvcc.compiler.pic.358701969" superClass="nvcc.compiler.pic"/>
+								<option id="nvcc.compiler.deviceDebug.844581980" name="Generate device debug information (-G)" superClass="nvcc.compiler.deviceDebug"/>
+								<option id="nvcc.compiler.option.level.724283783" name="Generate host debug information (-g)" superClass="nvcc.compiler.option.level"/>
+								<option defaultValue="nvcc.compiler.optimization.level.most" id="nvcc.compiler.optimization.level.1600321084" name="Optimization Level" superClass="nvcc.compiler.optimization.level" valueType="enumerated"/>
+								<option id="nvcc.compiler.pic.358701969" name="Position Independent Code (-fPIC)" superClass="nvcc.compiler.pic"/>
 								<inputType id="nvcc.compiler.input.cu.1055010475" superClass="nvcc.compiler.input.cu"/>
 								<inputType id="nvcc.compiler.input.cpp.1603013352" superClass="nvcc.compiler.input.cpp"/>
 								<inputType id="nvcc.compiler.input.c.13081100" superClass="nvcc.compiler.input.c"/>
@@ -122,4 +125,5 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope"/>
 </cproject>
